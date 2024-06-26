@@ -49,6 +49,7 @@ const Home = () => {
     setResponse("")
     if(!prompt){
       alert("Please enter a prompt")
+      setLoading(false)
       return
     }
     console.log(prompt);
@@ -75,7 +76,7 @@ const Home = () => {
     setLoading(false)
   }
   return (
-    <div className="flex flex-col items-center min-h-screen gap-12 px-20 py-6 xl:px-48" >
+    <div className="flex flex-col items-center min-h-screen gap-12 px-4 lg:px-20 py-6 xl:px-48" >
       <h1 className="text-4xl font-bold text-primary-500 text-center">
         Chat With Your PDF
       </h1>
