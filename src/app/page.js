@@ -106,7 +106,7 @@ const Home = () => {
         placeholder={"Response will appear here"}
         rows={10}
       />
-      <button className="bg-primary-500 text-white py-2 px-4 rounded-md disabled:bg-gray-300"
+      <button className="bg-primary-500 text-white py-2 px-2 rounded-md disabled:bg-gray-300"
         onClick={submitData}
         disabled={loading}
       >
