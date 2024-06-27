@@ -97,15 +97,11 @@ const Home = () => {
         name={"prompt"}
         required={true}
         placeholder={"Enter your question here"}
+        twstyles="bg-transparent"
       />
-      <TextArea
-        value={response}
-        onChange={(e) => setResponse(e.target.value)}
-        name={"response"}
-        required={true}
-        placeholder={"Response will appear here"}
-        rows={10}
-      />
+      <p className="text-gray-500 text-left py-6">
+        {response}
+      </p>
       <button className="bg-primary-500 text-white py-2 px-2 rounded-md disabled:bg-gray-300"
         onClick={submitData}
         disabled={loading}
