@@ -55,7 +55,7 @@ const Home = () => {
     setLoading(false)
   }
   return (
-    <div className="flex flex-col items-center min-h-screen w-screen gap-12 px-4 lg:px-20 py-6 lg:py-14 xl:px-48 bg-white dark:bg-gray-800" >
+    <div className="flex flex-col items-center min-h-screen w-screen gap-12 px-4 lg:px-20 py-6 lg:py-14 xl:px-48 bg-white dark:bg-gray-700" >
       <div className="flex items-center gap-8 w-full">
         <Image src="/logo.png" width={50} height={50} alt="logo" className="w-auto h-auto"/>
         <h1 className="text-2xl lg:text-4xl font-bold capitalize dark:text-gray-100">
