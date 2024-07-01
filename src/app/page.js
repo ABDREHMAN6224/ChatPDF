@@ -1,48 +1,27 @@
 "use client";
-import { useState } from "react"
-import PdfPicker from "./components/inputs/PdfPicker"
+import { useState } from "react";
 import TextInput from "./components/inputs/TextInput";
-import TextArea from "./components/inputs/TextArea";
+import DropdownSelector from "./components/inputs/DropdownSelector";
+import Image from "next/image";
 
 const Home = () => {
-  const [file,setFile] = useState(()=>{
-    if (typeof window !== "undefined") {
-      return JSON.parse(localStorage.getItem("file"))||null
-    }
-  
-  })
-  const [sourceId,setSourceId] = useState(()=>{
-    if (typeof window !== "undefined") {
-      localStorage.getItem("sourceId")||""
-    }
-  })
+  const data=[{
+    name:"Abraham-Silberschatz-Operating-System-Concepts-10th-2018",
+    sourceId:'src_O8Fqns93GxHtPuIGlTPeU'
+  },
+{
+  name:"Assembly Language for x86 Processors 7th Edition",
+  sourceId:"src_CaQg66zFY5zcKeMR0cKYO"
+},
+{
+  name:"Fundamental_of_Database_Systems",
+  sourceId:"src_8xAHvRpGhf9y2YVZLJx51"
+}]
+  const [sourceId,setSourceId] = useState(data[0].sourceId)
   const [loading,setLoading] = useState(false)
   const [prompt,setPrompt] = useState("")
   const [response,setResponse] = useState("")
-  const [submitting,setSubmitting] = useState(false)
-  const uploadToCHatPDF =async (file) => {
-    const formData = new FormData();
-    formData.append(
-      "file",
-      file
-    );
-    const response = await fetch("https://api.chatpdf.com/v1/sources/add-file", {
-      method: "POST",
-      body: formData,
-      headers: {
-        "x-api-key": process.env.NEXT_PUBLIC_API_KEY
-      }
-    })
-    const data = await response.json()
-    console.log(data?.sourceId)
-    setSourceId(data?.sourceId)
-    localStorage.setItem("sourceId",data?.sourceId)
-    localStorage.setItem("file",JSON.stringify({
-      name:file.name,
-      size:file.size
-    }))
-
-  }
+ 
 
   const submitData = async () => {
     setLoading(true)
@@ -53,7 +32,7 @@ const Home = () => {
       return
     }
     console.log(prompt);
-    const sourceId = localStorage.getItem("sourceId")
+
     const data = {
       sourceId,
       messages: [
@@ -76,50 +55,55 @@ const Home = () => {
     setLoading(false)
   }
   return (
-    <div className="flex flex-col items-center min-h-screen gap-12 px-4 lg:px-20 py-6 xl:px-48" >
-      <h1 className="text-4xl font-bold text-primary-500 text-center">
-        Chat With Your PDF
-      </h1>
-      <PdfPicker twstyles={"w-full"}
-        onChange={(file) => {
-          setFile(file)
-          uploadToCHatPDF(file)
+    <div className="flex flex-col items-center min-h-screen w-screen gap-12 px-4 lg:px-20 py-6 lg:py-14 xl:px-48" >
+      <div className="flex items-center gap-8 w-full">
+        <Image src="/logo.png" width={50} height={50} alt="logo" className="w-auto h-auto"/>
+        <h1 className="text-2xl lg:text-4xl font-bold capitalize">
+          Book help Bot
+        </h1>
+      </div>
+      <DropdownSelector
+            options={data.map((item)=>({label:item.name,value:item.sourceId}))}
+            value={sourceId}
+            onChange={(e) => setSourceId(e.target.value)}
+            styles={"w-full mx-auto"}
+            label={"Select Book"}
+        />
+      <form className="gap-12 flex flex-col items-center w-full"
+        onSubmit={(e) => {
+          e.preventDefault();
+          submitData();
         }}
-        name={"file"}
-        value={file}
-      />
-    {(file&&!submitting)?
-      
-    <div className="flex flex-col gap-4 w-2/3 mx-auto">
+      >
+
       <TextInput
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         name={"prompt"}
         required={true}
         placeholder={"Enter your question here"}
-        twstyles="bg-transparent"
-      />
-      <p className="text-gray-500 text-left py-6">
-        {response}
-      </p>
-      <button className="bg-primary-500 text-white py-2 px-2 rounded-md disabled:bg-gray-300"
-        onClick={submitData}
+        twstyles="bg-transparent w-full"
+        label={"Enter your question"}
+        />
+        {response&&
+      <div className="text-gray-500 text-left py-6 flex items-baseline gap-3">
+        <h3 className="text-lg font-bold">Response:</h3>
+        <p className="text-base ">{response}</p>
+      </div>
+      }
+
+      <button className="bg-primary-500 text-white py-2 rounded-md disabled:bg-gray-300 px-5"
+        type="submit"
         disabled={loading}
       >
         {loading?"Loading...":"Submit"}
       </button>
-    </div>:
-    <div className="flex flex-col items-center gap-4">
-      <p className="text-gray-500 text-center">
-        Upload a PDF file to get started
-      </p>
-    </div>
-      }
-      <div className="flex flex-col items-center gap-4">
-        <p className="text-gray-500 text-center">
-          Made by Abdul Rehman
-        </p>
-      </div>
+      </form>
+
+      <footer className="text-gray-500 text-center">
+        <p>Created by <a href="https://portfolio-arm.netlify.app/" target="_blank" rel="noreferrer">Abdul Rehman Memon</a></p>
+      </footer>
+
     </div>
   )
 }
