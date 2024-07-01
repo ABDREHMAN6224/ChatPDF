@@ -86,7 +86,7 @@ const Home = () => {
         label={"Enter your question"}
         />
         {response&&
-      <div className="text-gray-500 text-left py-6 flex items-baseline gap-3">
+      <div className="text-gray-500 text-left py-6 flex flex-col md:flex-row items-baseline gap-3">
         <h3 className="text-lg font-bold">Response:</h3>
         <p className="text-base ">{response}</p>
       </div>
