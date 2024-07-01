@@ -22,7 +22,7 @@ const DropdownSelector = ({
         className="rounded-full mr-2 -ml-2"
         />
      }
-        <label className="text-lg font-normal text-gray-900">{label}</label>
+        <label className="text-lg font-normal text-gray-900 dark:text-gray-200">{label}</label>
         <div className={`flex items-center border w-full bg-transparent border-gray-50 rounded-md py-3 px-2 md:py-4 md:px-4 text-sm text-gray-400 focus:outline-none ${twstyles}`}>
         <select
             value={value}

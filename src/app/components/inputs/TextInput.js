@@ -19,7 +19,7 @@ const TextInput = ({
 }) => {
   return (
     <div className={`flex flex-col gap-3 text ${twstyles}`}>
-      <label htmlFor={name} className="text-lg font-normal text-gray-900">{label}</label>
+      <label htmlFor={name} className="text-lg font-normal text-gray-900 dark:text-gray-200">{label}</label>
         <div className="flex items-center border w-full bg-transparent border-gray-50 rounded-md py-3 px-4 md:py-4 md:px-6 text-sm text-gray-400 focus:outline-none dark:text-gray-100 dark:border-gray-700">
             {startIcon && <span className="mr-2 -ml-2">{startIcon}</span>}
             <input
