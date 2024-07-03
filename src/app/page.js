@@ -1,18 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextInput from "./components/inputs/TextInput";
 import DropdownSelector from "./components/inputs/DropdownSelector";
 import Image from "next/image";
 
 const Home = () => {
-  const data=[{
+  const data=[
+    {
+      name:"Assembly Language for x86 Processors 7th Edition",
+      sourceId:"src_CaQg66zFY5zcKeMR0cKYO"
+    },
+    {
     name:"Abraham-Silberschatz-Operating-System-Concepts-10th-2018",
     sourceId:'src_O8Fqns93GxHtPuIGlTPeU'
   },
-{
-  name:"Assembly Language for x86 Processors 7th Edition",
-  sourceId:"src_CaQg66zFY5zcKeMR0cKYO"
-},
 {
   name:"Fundamental_of_Database_Systems",
   sourceId:"src_8xAHvRpGhf9y2YVZLJx51"
@@ -21,6 +22,7 @@ const Home = () => {
   const [loading,setLoading] = useState(false)
   const [prompt,setPrompt] = useState("")
   const [response,setResponse] = useState("")
+  
  
 
   const submitData = async () => {
@@ -52,8 +54,33 @@ const Home = () => {
     })
     const responseData = await response.json()
     setResponse(responseData?.content)
-    setLoading(false)
+     setLoading(false)
   }
+  const handleSpeech = () => {
+    if('speechSynthesis' in window){
+      // if already speaking then cancel
+      if(window.speechSynthesis.speaking){
+        window.speechSynthesis.cancel()
+        return
+      }
+      const speech = new SpeechSynthesisUtterance(response)
+      speech.lang = "en-US"
+      speech.volume = 1
+      speech.rate = 1
+      speech.pitch = 1
+      window.speechSynthesis.speak(speech)
+    }
+  }
+
+  useEffect(() => {
+    if(typeof window === "undefined") return
+    if('speechSynthesis' in window){
+      window.speechSynthesis.cancel()
+    }
+  }, [])
+
+
+
   return (
     <div className="flex flex-col items-center min-h-screen w-screen gap-12 px-4 lg:px-20 py-6 lg:py-14 xl:px-48 bg-white dark:bg-gray-700" >
       <div className="flex items-center gap-8 w-full">
@@ -86,9 +113,12 @@ const Home = () => {
         label={"Enter your question"}
         />
         {response&&
-      <div className="text-gray-500 dark:text-gray-100 text-left py-6 flex flex-col md:flex-row items-baseline gap-3">
+      <div className="text-gray-500 dark:text-gray-100 text-left py-6 flex flex-col md:flex-row w-full items-start gap-3">
         <h3 className="text-lg font-bold">Response:</h3>
+        <div className="flex gap-5">
+                <Image src="/assets/images/audio.png" width={20} height={20} alt="audio" className="w-6 h-6 cursor-pointer" onClick={handleSpeech}/>
         <p className="text-base ">{response}</p>
+        </div>
       </div>
       }
 
