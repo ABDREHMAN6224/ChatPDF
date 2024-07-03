@@ -116,7 +116,11 @@ const Home = () => {
       <div className="text-gray-500 dark:text-gray-100 text-left py-6 flex flex-col md:flex-row w-full items-start gap-3">
         <h3 className="text-lg font-bold">Response:</h3>
         <div className="flex gap-5">
+          <div className=" min-w-fit">
+              <div className="bg-primary-500 text-white  p-3 bg-opacity-70 transition-all hover:bg-opacity-50 rounded-full dark:bg-gray-50">
                 <Image src="/assets/images/audio.png" width={20} height={20} alt="audio" className="w-6 h-6 cursor-pointer" onClick={handleSpeech}/>
+              </div>
+          </div>
         <p className="text-base ">{response}</p>
         </div>
       </div>
